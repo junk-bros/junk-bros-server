@@ -129,11 +129,29 @@ const getUser = (req, res) => {
   });
 };
 
+const saveFile = (req, res) => {
+  const { id } = req.params;
+  const { file } = req.body;
+  let rs = { status: 0 };
+  UserModel.findOne({ _id: id }, (err, user) => {
+    if (user) {
+      console.log(file);
+      // 这里获取到file 并确认用户存在后，将文件传至S3
+      rs.status = 1;
+      res.json(rs);
+    } else {
+      rs.message = "user doesn't exist";
+      res.json(rs);
+    }
+  });
+};
+
 module.exports = {
   userLogin,
   getUsers,
   createUser,
   resetPassword,
   updateUser,
-  getUser
+  getUser,
+  saveFile
 };

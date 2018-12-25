@@ -51,6 +51,8 @@ app
   .get(users.getUser)
   .post(users.updateUser);
 
+app.post("/file/:id", users.saveFile);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
