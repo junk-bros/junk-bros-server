@@ -16,7 +16,13 @@ const userLogin = (req, res) => {
       if (user) {
         if (user.comparePassword(password)) {
           rs.status = 1;
-          rs.user = user;
+          rs.user = {
+            id: user._id,
+            username: user.username,
+            files: user.files,
+            phone: user.phone,
+            email: user.email
+          };
           rs.message = "登录成功";
         } else {
           rs.message = "用户名或密码错误";
@@ -53,7 +59,17 @@ const createUser = (req, res) => {
         if (err) {
           res.json({ status: 0, message: err.message });
         }
-        res.json({ status: 1, message: "注册成功", user: UserEntity });
+        res.json({
+          status: 1,
+          message: "注册成功",
+          user: {
+            id: UserEntity._id,
+            username: UserEntity.username,
+            files: UserEntity.files,
+            phone: UserEntity.phone,
+            email: UserEntity.email
+          }
+        });
       });
     }
   });
@@ -101,7 +117,13 @@ const updateUser = (req, res) => {
           res.json(rs);
         } else {
           rs.status = 1;
-          rs.user = Object.assign(user, { phone, email });
+          rs.user = {
+            id: user._id,
+            username: user.username,
+            files: user.files,
+            phone: phone,
+            email: email
+          };
           rs.message = "个人资料修改成功";
         }
         res.json(rs);
